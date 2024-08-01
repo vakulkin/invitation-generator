@@ -1,24 +1,24 @@
-import { useRef } from 'react';
-import { Container } from '@mui/material';
-import { Formik, Form } from 'formik';
-import validationSchema from './validationSchema';
-import BackgroundSelector from './components/BackgroundSelector';
-import DateTimeSelector from './components/DateTimeSelector';
-import FormField from './components/FormField';
-import InvitationPreview from './components/InvitationPreview';
-import GeneratePDFButton from './components/GeneratePDFButton';
+import { useRef } from "react";
+import { Container } from "@mui/material";
+import { Formik, Form } from "formik";
+import validationSchema from "./validationSchema";
+import BackgroundSelector from "./components/BackgroundSelector";
+import DateTimeSelector from "./components/DateTimeSelector";
+import FormField from "./components/FormField";
+import InvitationPreview from "./components/InvitationPreview";
+import GeneratePDFButton from "./components/GeneratePDFButton";
 
 const initialValues = {
-  background: 'background1',
-  date: '',
-  checkInTime: '',
-  endTime: '',
-  celebration: '',
-  contact: '',
-  firstName: '',
-  lastName: '',
-  phone: '',
-  email: '',
+  background: "background1",
+  date: "",
+  checkInTime: "",
+  endTime: "",
+  celebration: "",
+  contact: "",
+  firstName: "",
+  lastName: "",
+  phone: "",
+  email: "",
 };
 
 const App = () => {
@@ -30,7 +30,7 @@ const App = () => {
         initialValues={initialValues}
         validationSchema={validationSchema}
         onSubmit={(values, actions) => {
-          console.log('Form Data:', values);
+          console.log("Form Data:", values);
           actions.setSubmitting(false);
         }}
       >
@@ -45,8 +45,9 @@ const App = () => {
             <FormField name="phone" label="Phone Number" type="tel" />
             <FormField name="email" label="Email Address" type="email" />
             <InvitationPreview ref={previewRef} formData={values} />
-            <GeneratePDFButton elementRef={previewRef} 
-            // disabled={!isValid || isSubmitting || !dirty}
+            <GeneratePDFButton
+              elementRef={previewRef}
+              disabled={!isValid || isSubmitting || !dirty}
             />
           </Form>
         )}
