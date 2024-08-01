@@ -14,13 +14,12 @@ const GeneratePDFButton = ({ elementRef }) => {
 
     try {
       const canvas = await html2canvas(elementRef.current, {
-        scale: 3, // Increase resolution for better quality
-        useCORS: true, // Handle cross-origin images if needed
+        scale: 3,
       });
 
       const imgData = canvas.toDataURL('image/png');
-      const pdfWidth = 210; // A4 width in mm
-      const pdfHeight = 297; // A4 height in mm
+      const pdfWidth = 216;
+      const pdfHeight = 279;
       const imgWidth = pdfWidth;
       const imgHeight = (canvas.height * imgWidth) / canvas.width; // Maintain aspect ratio
 
@@ -30,7 +29,6 @@ const GeneratePDFButton = ({ elementRef }) => {
         format: [pdfWidth, pdfHeight],
       });
 
-      // Center the image vertically on the page
       const yOffset = (pdfHeight - imgHeight) / 2;
       
       pdf.addImage(imgData, 'PNG', 0, yOffset, imgWidth, imgHeight);
@@ -41,7 +39,7 @@ const GeneratePDFButton = ({ elementRef }) => {
   };
 
   return (
-    <Button variant="contained" color="secondary" onClick={generatePDF}>
+    <Button fullWidth size="large" variant="contained" color="secondary" onClick={generatePDF}>
       Download Invitation as PDF
     </Button>
   );

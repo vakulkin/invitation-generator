@@ -5,12 +5,13 @@ import { useField } from 'formik';
 import { FormControl, InputLabel, Select, MenuItem, FormHelperText } from '@mui/material';
 
 const BackgroundSelector = ({ name }) => {
-  // Use Formik's useField hook to connect the component to Formik's context
+
   const [field, meta] = useField(name);
 
   const backgrounds = [
     { label: "Pattern 1", value: "background1" },
     { label: "Pattern 2", value: "background2" },
+    { label: "Pattern 3", value: "background3" },
   ];
 
   return (
