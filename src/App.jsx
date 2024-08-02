@@ -16,14 +16,14 @@ const placeOptions = [
     label: 'Kanawha City',
     value: {
       name: 'Kanawha City',
-      address: '419 58th St SE, Charleston, WV 25304',
+      desc: '419 58th St SE, Charleston, WV 25304',
     },
   },
   {
     label: 'Hurricane',
     value: {
       name: 'Hurricane',
-      address: '3548 Teays Valley Road, Hurricane, WV 25526',
+      desc: '3548 Teays Valley Road, Hurricane, WV 25526',
     },
   },
 ];
@@ -34,7 +34,10 @@ const initialValues = {
   checkInTime: '',
   endTime: '',
   celebration: '',
-  place: '',
+  place: {
+    name: '',
+    desc: '',
+  },
   firstName: '',
   lastName: '',
   phone: '',

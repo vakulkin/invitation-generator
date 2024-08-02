@@ -57,12 +57,17 @@ const InvitationPreview = forwardRef(({ formData }, ref) => {
 
   const fontSize = (BASE_FONT_SIZE_PX / LETTER_WIDTH_PX) * dimensions.width;
 
+  const proportionalMargin = fontSize * 0.1;
+  const proportionalMarginSmall = proportionalMargin * 0.5;
+  const proportionalMarginLarge = proportionalMargin * 1.5;
+
   const baseTheme = useTheme();
   const previewTheme = createTheme(baseTheme, {
     components: {
       MuiTypography: {
         styleOverrides: {
           root: {
+            lineHeight: 1,
             fontFamily: "Bebas Neue, sans-serif",
             color: baseTheme.palette.primary.main,
           },
@@ -82,10 +87,6 @@ const InvitationPreview = forwardRef(({ formData }, ref) => {
       },
     },
   });
-
-  // Extract name and address from the selected place
-  const placeName = place?.name || '';
-  const placeAddress = place?.address || '';
 
   return (
     <ThemeProvider theme={previewTheme}>
@@ -112,33 +113,47 @@ const InvitationPreview = forwardRef(({ formData }, ref) => {
             overflow: "hidden",
           }}
         >
-          <Typography variant="body1" noWrap sx={{ mb: 1 }}>
+          <Typography variant="body1" noWrap sx={{ mb: proportionalMarginLarge }}>
             Please join us on{" "}
             {date ? dayjs(date).format("MM/DD/YYYY") : "mm/dd/yy"} for
           </Typography>
-          <Typography variant="h1" color="secondary" noWrap sx={{ mb: 1 }}>
+          <Typography
+            variant="h1"
+            color="secondary"
+            noWrap
+            sx={{ mb: proportionalMarginLarge  }}
+          >
             {celebration || "Your Event Title"}
           </Typography>
-          <Typography variant="body1" noWrap sx={{ mb: 2 }}>
+          <Typography variant="body1" noWrap sx={{ mb: proportionalMarginLarge }}>
             Time: {checkInTime ? dayjs(checkInTime).format("hh:mm A") : "xx:xx"}{" "}
             - {endTime ? dayjs(endTime).format("hh:mm A") : "xx:xx"}
           </Typography>
-          <Typography variant="h2" color="secondary" noWrap>
-            {placeName || "Select place"}
+          <Typography
+            variant="h2"
+            color="secondary"
+            noWrap
+          >
+            {place.name || "Select place"}
           </Typography>
-          <Typography variant="body1" color="secondary" noWrap sx={{ mb: 2 }}>
-            {placeAddress || "Where you are celebrating"}
+          <Typography
+            variant="body1"
+            color="secondary"
+            noWrap
+            sx={{ mb: proportionalMarginLarge }}
+          >
+            {place.desc || "Where you are celebrating"}
           </Typography>
-          <Typography variant="body1" noWrap>
+          <Typography variant="body1" noWrap sx={{ mb: proportionalMargin }}>
             Please RSVP by contacting:
           </Typography>
-          <Typography variant="body2" noWrap>
+          <Typography variant="body2" noWrap sx={{ mb: proportionalMarginSmall }}>
             {firstName || "Name"} {lastName || "Surname"} at
           </Typography>
-          <Typography variant="body2" noWrap>
+          <Typography variant="body2" noWrap sx={{ mb: proportionalMarginSmall }}>
             Phone: {phone || "0000000000"}
           </Typography>
-          <Typography variant="body2" noWrap>
+          <Typography variant="body2" noWrap sx={{ mb: proportionalMarginSmall }}>
             Email: {email || "your@email.com"}
           </Typography>
         </Box>
