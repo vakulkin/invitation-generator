@@ -34,7 +34,7 @@ const initialValues = {
   checkInTime: '',
   endTime: '',
   celebration: '',
-  place: placeOptions[0].value, // Set Kanawha City as the default
+  place: '',
   firstName: '',
   lastName: '',
   phone: '',

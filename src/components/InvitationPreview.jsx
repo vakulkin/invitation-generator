@@ -124,10 +124,10 @@ const InvitationPreview = forwardRef(({ formData }, ref) => {
             - {endTime ? dayjs(endTime).format("hh:mm A") : "xx:xx"}
           </Typography>
           <Typography variant="h2" color="secondary" noWrap>
-            {placeName}
+            {placeName || "Select place"}
           </Typography>
           <Typography variant="body1" color="secondary" noWrap sx={{ mb: 2 }}>
-            {placeAddress}
+            {placeAddress || "Where you are celebrating"}
           </Typography>
           <Typography variant="body1" noWrap>
             Please RSVP by contacting:

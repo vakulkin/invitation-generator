@@ -9,10 +9,12 @@ const validationSchema = Yup.object({
   celebration: Yup.string()
     .required("Please specify what you are celebrating.")
     .max(100, "Celebration name can only be 100 characters long."),
-  palce: Yup.string()
-    .required("Please specify place where you are celebrating.")
-    .max(20, "Place name can only be 20 characters long."),
-  contact: Yup.string().required("Contact information is required."),
+  place: Yup.object({
+    name: Yup.string()
+      .required("Please specify place where you are celebrating.")
+      .max(20, "Place name can only be 20 characters long."),
+    address: Yup.string(),
+  }),
   firstName: Yup.string().required("First name is required."),
   lastName: Yup.string().required("Last name is required."),
   phone: Yup.string()
