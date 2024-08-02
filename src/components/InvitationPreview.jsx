@@ -1,5 +1,3 @@
-// src/components/InvitationPreview.jsx
-
 import React, { forwardRef, useEffect, useState } from "react";
 import { Paper, Typography, Box } from "@mui/material";
 import { createTheme, ThemeProvider, useTheme } from "@mui/material/styles";
@@ -36,8 +34,8 @@ const InvitationPreview = forwardRef(({ formData }, ref) => {
   };
 
   const [dimensions, setDimensions] = useState({
-    width: 0,
-    height: 0,
+    width: LETTER_WIDTH_PX,
+    height: LETTER_HEIGHT_PX,
   });
 
   useEffect(() => {
@@ -94,22 +92,22 @@ const InvitationPreview = forwardRef(({ formData }, ref) => {
         ref={ref}
         sx={{
           position: "relative",
-          width: "100%",
-          height: dimensions.height,
-          background: "none",
+          width: `${dimensions.width}px`,
+          height: `${dimensions.height}px`,
+          overflow: "hidden",
           fontFamily: '"Bebas Neue", sans-serif',
         }}
         elevation={3}
       >
-       <img
+        <img
           src={backgroundImages[background]}
           alt="Background"
           style={{
             position: "absolute",
             top: 0,
             left: 0,
-            width: "100%",
-            height: "100%",
+            width: `${dimensions.width}px`,
+            height: `${dimensions.height}px`,
             objectFit: "cover",
             zIndex: -1,
           }}
@@ -118,10 +116,10 @@ const InvitationPreview = forwardRef(({ formData }, ref) => {
         <Box
           sx={{
             position: "absolute",
-            top: "52%",
-            left: "19%",
-            width: "57%",
-            height: "34%",
+            top: dimensions.height * 0.52, // Example of dynamic positioning
+            left: dimensions.width * 0.19,
+            width: dimensions.width * 0.57,
+            height: dimensions.height * 0.34,
             overflow: "hidden",
           }}
         >
@@ -133,7 +131,7 @@ const InvitationPreview = forwardRef(({ formData }, ref) => {
             variant="h1"
             color="secondary"
             noWrap
-            sx={{ mb: proportionalMarginLarge  }}
+            sx={{ mb: proportionalMarginLarge }}
           >
             {celebration || "Your Event Title"}
           </Typography>
