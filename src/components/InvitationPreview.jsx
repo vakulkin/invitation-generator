@@ -6,9 +6,9 @@ import { createTheme, ThemeProvider, useTheme } from "@mui/material/styles";
 import dayjs from "dayjs";
 import "@fontsource/bebas-neue";
 
-import background1 from "../assets/invitation-pattern-1.jpg";
-import background2 from "../assets/invitation-pattern-2.jpg";
-import background3 from "../assets/invitation-pattern-3.jpg";
+import background1 from "../assets/invitation-pattern-1.svg";
+import background2 from "../assets/invitation-pattern-2.svg";
+import background3 from "../assets/invitation-pattern-3.svg";
 
 // Base dimensions for U.S. Letter in pixels at 96 DPI
 const LETTER_WIDTH_PX = 816; // 8.5 inches * 96 DPI

@@ -38,7 +38,7 @@ const DateTimeSelector = () => {
         </Grid>
         <Grid item xs={6} sm={4}>
           <TimePicker
-            label="Check-In Time"
+            label="Start"
             value={checkInField.value ? dayjs(checkInField.value) : null}
             onChange={(newValue) => {
               setFieldValue('checkInTime', newValue ? newValue.toISOString() : '');
@@ -57,7 +57,7 @@ const DateTimeSelector = () => {
         </Grid>
         <Grid item xs={6} sm={4}>
           <TimePicker
-            label="End Time"
+            label="End"
             value={endField.value ? dayjs(endField.value) : null}
             onChange={(newValue) => {
               setFieldValue('endTime', newValue ? newValue.toISOString() : '');
