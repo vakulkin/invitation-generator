@@ -1,12 +1,19 @@
 // src/components/InvitationPreview.jsx
 
-import React, { forwardRef } from "react";
+import React, { forwardRef, useEffect, useState } from "react";
 import { Paper, Typography, Box } from "@mui/material";
+import { createTheme, ThemeProvider, useTheme } from "@mui/material/styles";
 import dayjs from "dayjs";
+import "@fontsource/bebas-neue";
 
 import background1 from "../assets/invitation-pattern-1.jpg";
 import background2 from "../assets/invitation-pattern-2.jpg";
 import background3 from "../assets/invitation-pattern-3.jpg";
+
+// Base dimensions for U.S. Letter in pixels at 96 DPI
+const LETTER_WIDTH_PX = 816; // 8.5 inches * 96 DPI
+const LETTER_HEIGHT_PX = 1056; // 11 inches * 96 DPI
+const BASE_FONT_SIZE_PX = 22;
 
 const InvitationPreview = forwardRef(({ formData }, ref) => {
   const {
@@ -28,67 +35,115 @@ const InvitationPreview = forwardRef(({ formData }, ref) => {
     background3,
   };
 
-  const width = 600;
-  const aspectRatio = 1.294;
-  const height = width * aspectRatio;
+  const [dimensions, setDimensions] = useState({
+    width: 0,
+    height: 0,
+  });
+
+  useEffect(() => {
+    const updateDimensions = () => {
+      if (ref.current) {
+        const width = ref.current.offsetWidth;
+        const height = width * (LETTER_HEIGHT_PX / LETTER_WIDTH_PX);
+        setDimensions({ width, height });
+      }
+    };
+    updateDimensions();
+    window.addEventListener("resize", updateDimensions);
+    return () => {
+      window.removeEventListener("resize", updateDimensions);
+    };
+  }, [ref]);
+
+  const fontSize = (BASE_FONT_SIZE_PX / LETTER_WIDTH_PX) * dimensions.width;
+
+  const baseTheme = useTheme();
+  const previewTheme = createTheme(baseTheme, {
+    components: {
+      MuiTypography: {
+        styleOverrides: {
+          root: {
+            fontFamily: "Bebas Neue, sans-serif",
+            color: baseTheme.palette.primary.main,
+          },
+          h1: {
+            fontSize: fontSize * 2.2,
+          },
+          h2: {
+            fontSize: fontSize * 1.2,
+          },
+          body1: {
+            fontSize: fontSize,
+          },
+          body2: {
+            fontSize: fontSize * 0.8,
+          },
+        },
+      },
+    },
+  });
+
+  // Extract name and address from the selected place
+  const placeName = place?.name || '';
+  const placeAddress = place?.address || '';
 
   return (
-    <Paper
-      ref={ref}
-      sx={{
-        position: "relative",
-        maxwidth: `${width}px`,
-        height: `${height}px`,
-        backgroundImage: `url(${backgroundImages[background]})`,
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-      }}
-      elevation={3}
-    >
-      <Box
+    <ThemeProvider theme={previewTheme}>
+      <Paper
+        ref={ref}
         sx={{
-          position: "absolute",
-          top: 420,
-          left: 130,
-          width: 360,
-          height: 260,
-          // backgroundColor: "rgba(0, 0, 0, 0.6)",
-          overflow: "hidden",
+          position: "relative",
+          width: "100%",
+          height: dimensions.height,
+          backgroundImage: `url(${backgroundImages[background]})`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          fontFamily: '"Bebas Neue", sans-serif',
         }}
+        elevation={3}
       >
-        <Typography variant="body1" noWrap>
-          Please join us on {date ? dayjs(date).format("MM/DD/YYYY") : "MM/DD/YYYY"} for
-        </Typography>
-        <Typography variant="body1" noWrap>
-          {celebration || "Your Event Title"}
-        </Typography>
-        <Typography variant="body1" noWrap>
-          Check In Time:{" "}
-          {checkInTime ? dayjs(checkInTime).format("hh:mm A") : "xx:xx"}
-        </Typography>
-        <Typography variant="body1" noWrap>
-          Party End Time: {endTime ? dayjs(endTime).format("hh:mm A") : "xx:xx"}
-        </Typography>
-        <Typography variant="body1" noWrap>
-          Kanawha City
-        </Typography>
-        <Typography variant="body1" noWrap>
-          419 58th St SE, Charlston, WV 25304
-        </Typography>
-        <Typography variant="body1" noWrap>
-          Please RSVP by contacting:
-        </Typography>
-        <Typography variant="body1" noWrap>
-          {firstName || "Name"} {lastName || "Surname"} at
-        </Typography>
-        <Typography variant="body1" noWrap>
-          {phone || "0000000000"}
-        </Typography>
-        <Typography variant="body1" noWrap>
-          {email || "your@email.com"}
-        </Typography>
-      </Box>
-    </Paper>
+        <Box
+          sx={{
+            position: "absolute",
+            top: "52%",
+            left: "19%",
+            width: "57%",
+            height: "34%",
+            overflow: "hidden",
+          }}
+        >
+          <Typography variant="body1" noWrap sx={{ mb: 1 }}>
+            Please join us on{" "}
+            {date ? dayjs(date).format("MM/DD/YYYY") : "mm/dd/yy"} for
+          </Typography>
+          <Typography variant="h1" color="secondary" noWrap sx={{ mb: 1 }}>
+            {celebration || "Your Event Title"}
+          </Typography>
+          <Typography variant="body1" noWrap sx={{ mb: 2 }}>
+            Time: {checkInTime ? dayjs(checkInTime).format("hh:mm A") : "xx:xx"}{" "}
+            - {endTime ? dayjs(endTime).format("hh:mm A") : "xx:xx"}
+          </Typography>
+          <Typography variant="h2" color="secondary" noWrap>
+            {placeName}
+          </Typography>
+          <Typography variant="body1" color="secondary" noWrap sx={{ mb: 2 }}>
+            {placeAddress}
+          </Typography>
+          <Typography variant="body1" noWrap>
+            Please RSVP by contacting:
+          </Typography>
+          <Typography variant="body2" noWrap>
+            {firstName || "Name"} {lastName || "Surname"} at
+          </Typography>
+          <Typography variant="body2" noWrap>
+            Phone: {phone || "0000000000"}
+          </Typography>
+          <Typography variant="body2" noWrap>
+            Email: {email || "your@email.com"}
+          </Typography>
+        </Box>
+      </Paper>
+    </ThemeProvider>
   );
 });
 

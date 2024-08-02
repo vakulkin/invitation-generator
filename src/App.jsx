@@ -1,12 +1,32 @@
+// src/App.jsx
+
 import React, { useRef } from 'react';
-import { Container, Grid, Button } from '@mui/material';
+import { Container, Grid } from '@mui/material';
 import { Formik, Form } from 'formik';
 import validationSchema from './validationSchema';
 import BackgroundSelector from './components/BackgroundSelector';
 import DateTimeSelector from './components/DateTimeSelector';
 import FormField from './components/FormField';
+import SelectField from './components/SelectField';
 import InvitationPreview from './components/InvitationPreview';
 import GeneratePDFButton from './components/GeneratePDFButton';
+
+const placeOptions = [
+  {
+    label: 'Kanawha City',
+    value: {
+      name: 'Kanawha City',
+      address: '419 58th St SE, Charleston, WV 25304',
+    },
+  },
+  {
+    label: 'Hurricane',
+    value: {
+      name: 'Hurricane',
+      address: '3548 Teays Valley Road, Hurricane, WV 25526',
+    },
+  },
+];
 
 const initialValues = {
   background: 'background1', // Default background
@@ -14,7 +34,7 @@ const initialValues = {
   checkInTime: '',
   endTime: '',
   celebration: '',
-  place: '',
+  place: placeOptions[0].value, // Set Kanawha City as the default
   firstName: '',
   lastName: '',
   phone: '',
@@ -25,11 +45,8 @@ const App = () => {
   const previewRef = useRef(null);
 
   return (
-    <Container component="main" maxWidth="lg" sx={{my: 3}}>
-      <Formik
-        initialValues={initialValues}
-        validationSchema={validationSchema}
-      >
+    <Container component="main" maxWidth="lg" sx={{ my: 3 }}>
+      <Formik initialValues={initialValues} validationSchema={validationSchema}>
         {({ values, isValid, isSubmitting, dirty }) => (
           <Form>
             <Grid container spacing={4}>
@@ -45,7 +62,11 @@ const App = () => {
                     <FormField name="celebration" label="What are you celebrating?" />
                   </Grid>
                   <Grid item xs={12}>
-                    <FormField name="place" label="Place where are you celebrating?" />
+                    <SelectField
+                      name="place"
+                      label="Place where you are celebrating"
+                      options={placeOptions}
+                    />
                   </Grid>
                   <Grid container item spacing={2} xs={12}>
                     <Grid item xs={6}>

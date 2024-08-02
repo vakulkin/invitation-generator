@@ -5,7 +5,7 @@ import { Button } from '@mui/material';
 import { jsPDF } from 'jspdf';
 import html2canvas from 'html2canvas';
 
-const GeneratePDFButton = ({ elementRef }) => {
+const GeneratePDFButton = ({ elementRef, disabled }) => {
   const generatePDF = async () => {
     if (!elementRef.current) {
       console.error('Element not found');
@@ -39,7 +39,7 @@ const GeneratePDFButton = ({ elementRef }) => {
   };
 
   return (
-    <Button fullWidth size="large" variant="contained" color="secondary" onClick={generatePDF}>
+    <Button fullWidth size="large" variant="contained" color="secondary" disabled={disabled} onClick={generatePDF}>
       Download Invitation as PDF
     </Button>
   );
