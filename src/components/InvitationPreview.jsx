@@ -1,12 +1,14 @@
+// src/components/InvitationPreview.jsx
+
 import React, { forwardRef, useEffect, useState } from "react";
 import { Paper, Typography, Box } from "@mui/material";
 import { createTheme, ThemeProvider, useTheme } from "@mui/material/styles";
 import dayjs from "dayjs";
 import "@fontsource/bebas-neue";
 
-import background1 from "../assets/invitation-pattern-1.svg";
-import background2 from "../assets/invitation-pattern-2.svg";
-import background3 from "../assets/invitation-pattern-3.svg";
+import background1 from "../assets/invitation-pattern-1.jpg";
+import background2 from "../assets/invitation-pattern-2.jpg";
+import background3 from "../assets/invitation-pattern-3.jpg";
 
 // Base dimensions for U.S. Letter in pixels at 96 DPI
 const LETTER_WIDTH_PX = 816; // 8.5 inches * 96 DPI
@@ -46,14 +48,13 @@ const InvitationPreview = forwardRef(({ formData }, ref) => {
         setDimensions({ width, height });
       }
     };
-    updateDimensions(); // Initial dimensions
+    updateDimensions();
     window.addEventListener("resize", updateDimensions);
     return () => {
       window.removeEventListener("resize", updateDimensions);
     };
   }, [ref]);
 
-  // Calculate the font size based on the width of the preview
   const fontSize = (BASE_FONT_SIZE_PX / LETTER_WIDTH_PX) * dimensions.width;
 
   const proportionalMargin = fontSize * 0.1;
@@ -94,10 +95,10 @@ const InvitationPreview = forwardRef(({ formData }, ref) => {
         sx={{
           position: "relative",
           width: "100%",
-          height: `${dimensions.height}px`,
-          overflow: "hidden",
-          fontFamily: '"Bebas Neue", sans-serif',
+          height: dimensions.height,
           background: "none",
+          fontFamily: '"Bebas Neue", sans-serif',
+          overflow: "hidden",
         }}
         elevation={3}
       >
@@ -108,8 +109,8 @@ const InvitationPreview = forwardRef(({ formData }, ref) => {
             position: "absolute",
             top: 0,
             left: 0,
-            width: `${dimensions.width}px`,
-            height: `${dimensions.height}px`,
+            width: "100%",
+            height: "100%",
             objectFit: "cover",
             zIndex: -1,
           }}
@@ -118,10 +119,10 @@ const InvitationPreview = forwardRef(({ formData }, ref) => {
         <Box
           sx={{
             position: "absolute",
-            top: dimensions.height * 0.52, // Example of dynamic positioning
-            left: dimensions.width * 0.19,
-            width: dimensions.width * 0.57,
-            height: dimensions.height * 0.34,
+            top: "52%",
+            left: "19%",
+            width: "57%",
+            height: "34%",
             overflow: "hidden",
           }}
         >
