@@ -28,13 +28,16 @@ const GeneratePDFButton = ({ elementRef, disabled }) => {
       const pdfHeightPx = (pdfHeightMm / mmToInches) * dpi;
 
       // Calculate the scale factor for the canvas
-      const scaleX = pdfWidthPx / previewWidth;
-      const scaleY = pdfHeightPx / previewHeight;
+      const devicePixelRatio = window.devicePixelRatio || 1;
+      const scaleX = (pdfWidthPx / previewWidth) * devicePixelRatio;
+      const scaleY = (pdfHeightPx / previewHeight) * devicePixelRatio;
       const scaleFactor = Math.min(scaleX, scaleY);
 
       // Render the HTML element to canvas with scaling
       const canvas = await html2canvas(elementRef.current, {
         scale: scaleFactor,
+        useCORS: true, // Ensure CORS if needed for external resources
+        backgroundColor: null, // Ensure no background from HTML
       });
 
       // Convert canvas to image data as JPEG with 1.0 quality
