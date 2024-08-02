@@ -67,7 +67,7 @@ const GeneratePDFButton = ({ elementRef, disabled }) => {
       size="large"
       variant="contained"
       color="secondary"
-      disabled={disabled}
+      // disabled={disabled}
       onClick={generatePDF}
     >
       Download Invitation as PDF
