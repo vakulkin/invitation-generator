@@ -34,8 +34,8 @@ const InvitationPreview = forwardRef(({ formData }, ref) => {
   };
 
   const [dimensions, setDimensions] = useState({
-    width: LETTER_WIDTH_PX,
-    height: LETTER_HEIGHT_PX,
+    width: 0,
+    height: 0,
   });
 
   useEffect(() => {
@@ -46,13 +46,14 @@ const InvitationPreview = forwardRef(({ formData }, ref) => {
         setDimensions({ width, height });
       }
     };
-    updateDimensions();
+    updateDimensions(); // Initial dimensions
     window.addEventListener("resize", updateDimensions);
     return () => {
       window.removeEventListener("resize", updateDimensions);
     };
   }, [ref]);
 
+  // Calculate the font size based on the width of the preview
   const fontSize = (BASE_FONT_SIZE_PX / LETTER_WIDTH_PX) * dimensions.width;
 
   const proportionalMargin = fontSize * 0.1;
@@ -92,10 +93,11 @@ const InvitationPreview = forwardRef(({ formData }, ref) => {
         ref={ref}
         sx={{
           position: "relative",
-          width: `${dimensions.width}px`,
+          width: "100%",
           height: `${dimensions.height}px`,
           overflow: "hidden",
           fontFamily: '"Bebas Neue", sans-serif',
+          background: "none",
         }}
         elevation={3}
       >
