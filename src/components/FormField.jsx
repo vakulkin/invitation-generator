@@ -16,7 +16,6 @@ const FormField = ({ label, type = "text", ...props }) => {
       {...field}
       {...props}
       error={meta.touched && Boolean(meta.error)}
-      helperText={meta.touched && meta.error}
       margin="normal"
       variant="outlined"
     />

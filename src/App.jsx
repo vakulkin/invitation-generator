@@ -36,7 +36,7 @@ const initialValues = {
   celebration: '',
   place: {
     name: '',
-    address: '',
+    desc: '',
   },
   firstName: '',
   lastName: '',

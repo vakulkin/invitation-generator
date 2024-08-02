@@ -13,25 +13,48 @@ const GeneratePDFButton = ({ elementRef, disabled }) => {
     }
 
     try {
+      // Get the size of the HTML preview
+      const previewWidth = elementRef.current.offsetWidth;
+      const previewHeight = elementRef.current.offsetHeight;
+
+      // Desired PDF size in mm (Letter size)
+      const pdfWidthMm = 216;
+      const pdfHeightMm = 279;
+
+      // High DPI setting (e.g., 300 DPI)
+      const dpi = 200; // Choose a DPI setting appropriate for print quality
+      const mmToInches = 25.4; // Conversion factor from mm to inches
+      const pdfWidthPx = (pdfWidthMm / mmToInches) * dpi;
+      const pdfHeightPx = (pdfHeightMm / mmToInches) * dpi;
+
+      // Calculate the scale factor for the canvas
+      const scaleX = pdfWidthPx / previewWidth;
+      const scaleY = pdfHeightPx / previewHeight;
+      const scaleFactor = Math.min(scaleX, scaleY);
+
+      // Render the HTML element to canvas with scaling
       const canvas = await html2canvas(elementRef.current, {
-        scale: 3,
+        scale: scaleFactor,
       });
 
-      const imgData = canvas.toDataURL("image/png");
-      const pdfWidth = 216;
-      const pdfHeight = 279;
-      const imgWidth = pdfWidth;
-      const imgHeight = (canvas.height * imgWidth) / canvas.width; // Maintain aspect ratio
+      // Convert canvas to image data as JPEG with 1.0 quality
+      const imgData = canvas.toDataURL("image/jpeg", 1.0);
 
       const pdf = new jsPDF({
         orientation: "portrait",
         unit: "mm",
-        format: [pdfWidth, pdfHeight],
+        format: [pdfWidthMm, pdfHeightMm],
       });
 
-      const yOffset = (pdfHeight - imgHeight) / 2;
+      // Calculate image size in PDF based on scaled canvas
+      const imgWidth = pdfWidthMm;
+      const imgHeight = (canvas.height * imgWidth) / canvas.width;
 
-      pdf.addImage(imgData, "PNG", 0, yOffset, imgWidth, imgHeight);
+      // Center the image vertically on the PDF
+      const yOffset = (pdfHeightMm - imgHeight) / 2;
+
+      // Add image to PDF
+      pdf.addImage(imgData, "JPEG", 0, yOffset, imgWidth, imgHeight);
       pdf.save("invitation.pdf");
     } catch (error) {
       console.error("Error generating PDF:", error);
@@ -44,7 +67,7 @@ const GeneratePDFButton = ({ elementRef, disabled }) => {
       size="large"
       variant="contained"
       color="secondary"
-      // disabled={disabled}
+      disabled={disabled}
       onClick={generatePDF}
     >
       Download Invitation as PDF

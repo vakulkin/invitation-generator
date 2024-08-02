@@ -15,7 +15,7 @@ const SelectField = ({ label, options, ...props }) => {
       label={label}
       {...field}
       {...props}
-      value={field.value.name} // Use the name for display
+      value={field.value.name}
       onChange={(event) => {
         const selectedOption = options.find(
           (option) => option.value.name === event.target.value
@@ -23,7 +23,6 @@ const SelectField = ({ label, options, ...props }) => {
         setFieldValue(field.name, selectedOption.value);
       }}
       error={meta.touched && Boolean(meta.error)}
-      helperText={meta.touched && meta.error}
       variant="outlined"
     >
       {options.map((option) => (

@@ -10,9 +10,14 @@ import dayjs from 'dayjs';
 const DateTimeSelector = () => {
   const { setFieldValue } = useFormikContext();
 
-  const [dateField, dateMeta] = useField('date');
-  const [checkInField, checkInMeta] = useField('checkInTime');
-  const [endField, endMeta] = useField('endTime');
+  const [dateField, dateMeta, dateHelpers] = useField('date');
+  const [checkInField, checkInMeta, checkInHelpers] = useField('checkInTime');
+  const [endField, endMeta, endHelpers] = useField('endTime');
+
+  const handleTimeChange = (fieldHelpers, fieldName) => (newValue) => {
+    fieldHelpers.setTouched(true);
+    setFieldValue(fieldName, newValue ? newValue.toISOString() : '');
+  };
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -22,8 +27,10 @@ const DateTimeSelector = () => {
             label="Event Date"
             value={dateField.value ? dayjs(dateField.value) : null}
             onChange={(newValue) => {
+              dateHelpers.setTouched(true);
               setFieldValue('date', newValue ? newValue.toISOString() : '');
             }}
+            minDate={dayjs()}
             slots={{
               textField: TextField,
             }}
@@ -31,7 +38,7 @@ const DateTimeSelector = () => {
               textField: {
                 fullWidth: true,
                 error: dateMeta.touched && Boolean(dateMeta.error),
-                helperText: dateMeta.touched && dateMeta.error,
+                helperText: dateMeta.touched && dateMeta.error ? dateMeta.error : '',
               },
             }}
           />
@@ -40,9 +47,7 @@ const DateTimeSelector = () => {
           <TimePicker
             label="Start"
             value={checkInField.value ? dayjs(checkInField.value) : null}
-            onChange={(newValue) => {
-              setFieldValue('checkInTime', newValue ? newValue.toISOString() : '');
-            }}
+            onChange={handleTimeChange(checkInHelpers, 'checkInTime')}
             slots={{
               textField: TextField,
             }}
@@ -50,7 +55,7 @@ const DateTimeSelector = () => {
               textField: {
                 fullWidth: true,
                 error: checkInMeta.touched && Boolean(checkInMeta.error),
-                helperText: checkInMeta.touched && checkInMeta.error,
+                helperText: checkInMeta.touched && checkInMeta.error ? checkInMeta.error : '',
               },
             }}
           />
@@ -59,9 +64,7 @@ const DateTimeSelector = () => {
           <TimePicker
             label="End"
             value={endField.value ? dayjs(endField.value) : null}
-            onChange={(newValue) => {
-              setFieldValue('endTime', newValue ? newValue.toISOString() : '');
-            }}
+            onChange={handleTimeChange(endHelpers, 'endTime')}
             slots={{
               textField: TextField,
             }}
@@ -69,7 +72,7 @@ const DateTimeSelector = () => {
               textField: {
                 fullWidth: true,
                 error: endMeta.touched && Boolean(endMeta.error),
-                helperText: endMeta.touched && endMeta.error,
+                helperText: endMeta.touched && endMeta.error ? endMeta.error : '',
               },
             }}
           />

@@ -96,13 +96,25 @@ const InvitationPreview = forwardRef(({ formData }, ref) => {
           position: "relative",
           width: "100%",
           height: dimensions.height,
-          backgroundImage: `url(${backgroundImages[background]})`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
+          background: "none",
           fontFamily: '"Bebas Neue", sans-serif',
         }}
         elevation={3}
       >
+       <img
+          src={backgroundImages[background]}
+          alt="Background"
+          style={{
+            position: "absolute",
+            top: 0,
+            left: 0,
+            width: "100%",
+            height: "100%",
+            objectFit: "cover",
+            zIndex: -1,
+          }}
+        />
+
         <Box
           sx={{
             position: "absolute",
