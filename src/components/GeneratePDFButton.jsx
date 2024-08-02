@@ -38,6 +38,7 @@ const GeneratePDFButton = ({ elementRef, disabled }) => {
         scale: scaleFactor,
         useCORS: true, // Ensure CORS if needed for external resources
         backgroundColor: null, // Ensure no background from HTML
+        allowTaint: true, // Allow cross-origin images (if needed)
       });
 
       // Convert canvas to image data as JPEG with 1.0 quality
@@ -70,7 +71,7 @@ const GeneratePDFButton = ({ elementRef, disabled }) => {
       size="large"
       variant="contained"
       color="secondary"
-      disabled={disabled}
+      // disabled={disabled}
       onClick={generatePDF}
     >
       Download Invitation as PDF
